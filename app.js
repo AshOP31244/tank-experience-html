@@ -1,17 +1,9 @@
-/* ═══════════════════════════════════════════════════════════
-   SHUBHAM KINGSPAN — RHINO TANKS EXPERIENCE CENTER
-   app.js  |  GSAP Animations + Interactive Logic
-═══════════════════════════════════════════════════════════ */
 
-/* ─────────────────────────────────────────────────────────
-   COMPONENT DATA
-   Maps each hotspot ID → panel content
-───────────────────────────────────────────────────────── */
 const COMPONENTS = {
   wall: {
     tag: 'WALL STRUCTURE',
     title: 'Zincalume\nWall Panels',
-    image: 'assets/sheet info.png',
+    image: 'assets/sheet-info.png',
     description: 'Corrugated Zincalume AZ150 wall sheets manufactured by Tata Bluescope to G300 Grade. The aluminium-zinc alloy coating provides 2–4× longer service life compared to standard galvanised steel. High solar reflectivity (67%) reduces internal heat gain significantly.',
     specs: [
       { key: 'Grade',       val: 'G300 · Az150' },
@@ -47,7 +39,7 @@ const COMPONENTS = {
   liner: {
     tag: 'INTERNAL LINER',
     title: 'Infinity\nLiner System',
-    image: 'assets/linerdetails.png',
+    image: 'assets/sheet-info.png',
     description: 'Exclusive to Shubham Kingspan Rhino Tanks — a 5-layer Japanese-manufactured liner certified to ANSI/NSF 61 for potable water storage. Outer layers use potable-grade UV-treated Metallocene film. The reinforced woven scrim 4th layer provides core structural strength, while Metallocene welded seams offer extra load and pressure resistance.',
     specs: [
       { key: 'Certification', val: 'ANSI / NSF 61' },
@@ -105,7 +97,6 @@ const panelDesc     = document.getElementById('panel-description');
 const panelSpecs    = document.getElementById('panel-specs');
 const bottomBar     = document.getElementById('bottom-bar');
 const hotspots      = document.querySelectorAll('.hotspot');
-const bottomDots    = document.querySelectorAll('.bd');
 const canvas        = document.getElementById('particle-canvas');
 
 /* ─────────────────────────────────────────────────────────
@@ -270,85 +261,75 @@ hotspots.forEach(hs => {
   });
 });
 
-/* Bottom nav dots */
-bottomDots.forEach(dot => {
-  dot.addEventListener('click', () => {
-    const id = dot.dataset.id;
-    const hs = document.getElementById('hs-' + id);
-    openPanel(id, hs);
-  });
-});
+
 
 /* ─────────────────────────────────────────────────────────
    OPEN PANEL
+───────────────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────
+   OPEN FULL-SCREEN OVERLAY
+   Replaces old side-panel openPanel()
 ───────────────────────────────────────────────────────── */
 function openPanel(id, triggerHs) {
   const data = COMPONENTS[id];
   if (!data) return;
 
+  activeId = id;
+
   // Mark active hotspot
   hotspots.forEach(h => h.classList.remove('active'));
-  bottomDots.forEach(d => d.classList.remove('active'));
+  
   triggerHs.classList.add('active');
   const activeDot = document.querySelector(`.bd[data-id="${id}"]`);
   if (activeDot) activeDot.classList.add('active');
 
-  activeId = id;
+  // // Populate overlay content
+  // document.getElementById('overlay-tag').textContent   = data.tag;
+  // document.getElementById('overlay-title').textContent = data.title;
+  // document.getElementById('overlay-image').src         = data.image;
+  // document.getElementById('overlay-image').alt         = data.title;
+  // document.getElementById('overlay-desc').textContent  = data.description;
 
-  // Populate panel content
-  panelTag.textContent   = data.tag;
-  panelTitle.textContent = data.title;
-  panelImage.src         = data.image;
-  panelImage.alt         = data.title;
-  panelDesc.textContent  = data.description;
+  // // Build specs grid
+  // document.getElementById('overlay-specs').innerHTML = data.specs.map(s => `
+  //   <div class="spec-item">
+  //     <span class="spec-key">${s.key}</span>
+  //     <span class="spec-val">${s.val}</span>
+  //   </div>
+  // `).join('');
 
-  // Build specs grid
-  panelSpecs.innerHTML = data.specs.map(s => `
-    <div class="spec-item">
-      <span class="spec-key">${s.key}</span>
-      <span class="spec-val">${s.val}</span>
-    </div>
-  `).join('');
+  // Populate overlay — image only
+  document.getElementById('overlay-image').src = data.image;
+  document.getElementById('overlay-image').alt = data.title;
 
-  // Reset panel scroll
-  detailPanel.scrollTop = 0;
+  const overlay = document.getElementById('fs-overlay');
+  const content = overlay.querySelector('.fs-content');
+  const items   = overlay.querySelectorAll('.fs-animate');
 
-  const tl = gsap.timeline();
-
-  // If panel already open, just swap content
-  if (panelOpen) {
-    // Quick content fade-swap
-    gsap.to([panelTitle, panelDesc, panelSpecs, '#panel-image'], {
-      opacity: 0, y: 10, duration: 0.2,
-      onComplete: () => {
-        gsap.to([panelTitle, panelDesc, panelSpecs, '#panel-image'], {
-          opacity: 1, y: 0, duration: 0.35, ease: 'power2.out', stagger: 0.05
-        });
-      }
-    });
-    zoomTankToHotspot(triggerHs);
-    return;
-  }
-
-  // Slide panel in
+  // Show overlay
+  overlay.style.display = 'flex';
   panelOpen = true;
   document.body.classList.add('panel-open');
 
-  tl.to(detailPanel, {
-    x: 0,
-    duration: 0.65,
-    ease: 'expo.out'
-  })
+  // Disable hotspot pointer events while open
+  hotspots.forEach(h => h.style.pointerEvents = 'none');
 
-  // Zoom tank slightly toward the hotspot
-  .add(() => { zoomTankToHotspot(triggerHs); }, 0)
-
-  // Stagger panel content in
-  .fromTo([panelTag, panelTitle, '#panel-image', panelDesc, panelSpecs],
-    { opacity: 0, y: 18 },
-    { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', stagger: 0.07 },
-    0.25
-  );
+  // GSAP: fade in overlay, stagger content
+  gsap.timeline()
+    .fromTo(overlay,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.45, ease: 'power3.out' }
+    )
+    .fromTo(content,
+      { scale: 0.96, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.55, ease: 'power3.out' },
+      '-=0.25'
+    )
+    .fromTo(items,
+      { y: 22, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out', stagger: 0.07 },
+      '-=0.35'
+    );
 }
 
 /* ─────────────────────────────────────────────────────────
@@ -374,30 +355,34 @@ function zoomTankToHotspot(hs) {
 /* ─────────────────────────────────────────────────────────
    CLOSE PANEL
 ───────────────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────
+   CLOSE FULL-SCREEN OVERLAY
+   Replaces old side-panel closePanel()
+───────────────────────────────────────────────────────── */
 function closePanel() {
   if (!panelOpen) return;
 
-  gsap.to(detailPanel, {
-    x: '100%',
-    duration: 0.5,
-    ease: 'expo.in',
-    onComplete: () => { panelOpen = false; }
+  const overlay = document.getElementById('fs-overlay');
+
+  gsap.to(overlay, {
+    opacity: 0,
+    duration: 0.4,
+    ease: 'power2.in',
+    onComplete: () => {
+      overlay.style.display = 'none';
+      panelOpen = false;
+      activeId  = null;
+
+      // Re-enable hotspot interactions
+      hotspots.forEach(h => {
+        h.style.pointerEvents = '';
+        h.classList.remove('active');
+      });
+      document.body.classList.remove('panel-open');
+    }
   });
 
-  // Reset tank position
-  gsap.to(tankWrapper, {
-    scale: 1,
-    x: 0,
-    y: 0,
-    duration: 0.8,
-    ease: 'expo.out'
-  });
 
-  // Remove active states
-  hotspots.forEach(h => h.classList.remove('active'));
-  bottomDots.forEach(d => d.classList.remove('active'));
-  document.body.classList.remove('panel-open');
-  activeId = null;
 }
 
 panelClose.addEventListener('click', closePanel);
@@ -424,25 +409,36 @@ document.querySelectorAll('.hs-label').forEach(lbl => {
   gsap.set(lbl, { opacity: 0, x: lbl.classList.contains('hs-label--left') ? 8 : -8 });
 });
 
-// Panel starts off-screen
-gsap.set(detailPanel, { x: '100%' });
+document.getElementById('liner-trigger').addEventListener('click', () => {
+  // Directly open the liner image overlay
+  const overlay = document.getElementById('fs-overlay');
+  const content = overlay.querySelector('.fs-content');
+  const img     = document.getElementById('overlay-image');
 
-/* ─────────────────────────────────────────────────────────
-   HANDLE MOBILE / LANDSCAPE: panel slides from bottom
-───────────────────────────────────────────────────────── */
-function checkMobile() {
-  if (window.innerWidth <= 900) {
-    gsap.set(detailPanel, { x: 0, y: '100%' });
-    // Override openPanel slide direction for mobile
-    detailPanel._isMobile = true;
-  } else {
-    gsap.set(detailPanel, { y: 0, x: panelOpen ? 0 : '100%' });
-    detailPanel._isMobile = false;
-  }
-}
+  img.src = 'assets/linerdetails.png';
+  img.alt = 'Infinity Liner System';
 
-window.addEventListener('resize', checkMobile);
-checkMobile();
+  overlay.style.display = 'flex';
+  panelOpen = true;
+  document.body.classList.add('panel-open');
+  hotspots.forEach(h => h.style.pointerEvents = 'none');
+
+  gsap.timeline()
+    .fromTo(overlay,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.45, ease: 'power3.out' }
+    )
+    .fromTo(content,
+      { scale: 0.96, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.55, ease: 'power3.out' },
+      '-=0.25'
+    )
+    .fromTo(img,
+      { y: 22, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' },
+      '-=0.35'
+    );
+});
 
 /* ─────────────────────────────────────────────────────────
    SMALL AMBIENT GLOW PULSE on tank

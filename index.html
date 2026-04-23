@@ -61,25 +61,21 @@
 
     <!-- Tank Image Container -->
     <div id="tank-wrapper">
-      <img id="tank-image" src="assets/rct.jpeg" alt="Rhino Tank" draggable="false" />
+      <img id="tank-image" src="assets/Hitech, Gujrat.jpg" alt="Rhino Tank" draggable="false" />
       <div id="tank-glow"></div>
 
-      <!-- ─────────────────────────────────────────
-           HOTSPOTS (positions tuned for rct.jpeg)
-      ───────────────────────────────────────────── -->
-
-      <!-- 1. Roof / Wall Sheet -->
+      <!-- 1. Roof / Wall Sheet
       <div class="hotspot" id="hs-wall" data-id="wall"
-           style="top: 22%; left: 48%;">
+           style="top: 26%; left: 70%;">
         <div class="hs-dot"></div>
         <svg class="hs-line" viewBox="0 0 160 60" xmlns="http://www.w3.org/2000/svg">
           <line class="line-path" x1="0" y1="30" x2="150" y2="8"/>
         </svg>
         <div class="hs-label">
-          <span class="label-title">Zincalume Wall Sheet</span>
-          <span class="label-sub">G300 · Az150 · Tata Bluescope</span>
+          <span class="label-title">External Level Indicator</span>
+          <span class="label-sub">example text for info </span>
         </div>
-      </div>
+      </div> -->
 
       <!-- 2. Access Hatch / Roof -->
       <!-- <div class="hotspot" id="hs-roof" data-id="roof"
@@ -95,15 +91,15 @@
       </div> -->
 
       <!-- 3. Nozzles -->
-      <div class="hotspot" id="hs-nozzle" data-id="nozzle"
-           style="top: 58%; left: 80%;">
+      <div class="hotspot" id="hs-foundation" data-id="foundation"
+           style="top: 88%; left: 70%;">
         <div class="hs-dot"></div>
         <svg class="hs-line hs-line--right" viewBox="0 0 140 40" xmlns="http://www.w3.org/2000/svg">
-          <line class="line-path" x1="0" y1="20" x2="130" y2="20"/>
+          <line class="line-path" x1="140" y1="20" x2="10" y2="20"/>
         </svg>
         <div class="hs-label">
-          <span class="label-title">Inlet / Outlet Nozzles</span>
-          <span class="label-sub">M12×30 Bolts · GR 8.8 · Gasket Sealed</span>
+          <span class="label-title">Concrete Ring Foundation</span>
+          <span class="label-sub">Ring Beam + Compacted Sand Pad</span>
         </div>
       </div>
 
@@ -115,35 +111,35 @@
           <line class="line-path" x1="140" y1="20" x2="10" y2="20"/>
         </svg>
         <div class="hs-label hs-label--left">
-          <span class="label-title">Infinity Liner</span>
-          <span class="label-sub">5-Layer Japanese · ANSI/NSF 61</span>
+          <span class="label-title">Zincalume Wall Sheet</span>
+          <!-- <span class="label-sub">5-Layer Japanese · ANSI/NSF 61</span> -->
         </div>
       </div>
 
       <!-- 5. Foundation -->
-      <div class="hotspot" id="hs-foundation" data-id="foundation" style="top: 80%; left: 38%;">
+      <div class="hotspot" id="hs-nozzle" data-id="nozzle" style="top: 80%; left: 41%;">
         <div class="hs-dot"></div>
         <svg class="hs-line hs-line--left" viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
-          <line class="line-path" x1="140" y1="15" x2="10" y2="38"/>
+          <line class="line-path" x1="140" y1="25" x2="10" y2="25"/>
         </svg>
         <div class="hs-label hs-label--left">
-          <span class="label-title">Concrete Ring Foundation</span>
-          <span class="label-sub">Ring Beam + Compacted Sand Pad</span>
+          <span class="label-title">Anti-Vortex Assembly</span>
+          <span class="label-sub">example text for info </span>
         </div>
       </div>
 
       <!-- 6. Ladder -->
-      <div class="hotspot" id="hs-ladder" data-id="ladder"
-           style="top: 38%; left: 75%;">
+      <!-- <div class="hotspot" id="hs-ladder" data-id="ladder"
+           style="top: 38%; left: 93%;">
         <div class="hs-dot"></div>
         <svg class="hs-line hs-line--right" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
           <line class="line-path" x1="0" y1="20" x2="110" y2="20"/>
         </svg>
         <div class="hs-label">
-          <span class="label-title">External Caged Ladder</span>
+          <span class="label-title">External Level Indicator</span>
           <span class="label-sub">Safety Access · Galvanised Steel</span>
         </div>
-      </div>
+      </div> -->
 
     </div><!-- /tank-wrapper -->
 
@@ -177,16 +173,27 @@
   ═══════════════════════════════════════════════ -->
   <footer id="bottom-bar">
     <span>SELECT A COMPONENT TO EXPLORE</span>
-    <div class="bottom-dots">
-      <div class="bd" data-id="wall"></div>
-      <div class="bd" data-id="roof"></div>
-      <div class="bd" data-id="nozzle"></div>
-      <div class="bd" data-id="liner"></div>
-      <div class="bd" data-id="foundation"></div>
-      <div class="bd" data-id="ladder"></div>
-    </div>
+    <button class="liner-btn" id="liner-trigger">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M8 12a4 4 0 0 0 8 0 4 4 0 0 0-8 0"/>
+      </svg>
+      INFINITY LINER
+    </button>
   </footer>
+ 
 
+  <div id="fs-overlay" style="display:none;">
+    <div class="fs-content">
+      <button id="fs-back" onclick="closePanel()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        Back
+      </button>
+      <img id="overlay-image" class="fs-animate fs-image" src="" alt="" />
+    </div>
+  </div>
   <script src="app.js"></script>
 </body>
 </html>
