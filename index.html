@@ -5,149 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shubham Kingspan Rhino Tanks — Experience Center</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- GSAP CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
 <body>
 
-  <!-- ═══════════════════════════════════════════════
-       LOADER SCREEN
-  ═══════════════════════════════════════════════ -->
   <div id="loader">
     <div class="loader-ring"></div>
     <div class="loader-ring loader-ring--2"></div>
     <div class="loader-text">INITIALIZING<span class="loader-dots">...</span></div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════
-       BACKGROUND EFFECTS
-  ═══════════════════════════════════════════════ -->
   <div class="bg-grid"></div>
   <div class="bg-vignette"></div>
   <canvas id="particle-canvas"></canvas>
 
-  <!-- ═══════════════════════════════════════════════
-       HEADER
-  ═══════════════════════════════════════════════ -->
   <header id="site-header">
     <div class="header-left">
-      <!-- {% comment %} <div class="header-badge">EXPERIENCE CENTER</div> {% endcomment %} -->
       <h1 class="company-name">SHUBHAM TANKS AND LINERS PVT. LTD.</h1>
-      <!-- {% comment %} <span class="header-tagline">RHINO WATER TANKS</span> {% endcomment %} -->
     </div>
-    <!-- <div class="header-right">
-      <div class="header-stat">
-        <span class="stat-value">G300</span>
-        <span class="stat-label">Grade Zincalume</span>
-      </div>
-      <div class="header-divider"></div>
-      <div class="header-stat">
-        <span class="stat-value">5-Layer</span>
-        <span class="stat-label">Infinity Liner</span>
-      </div>
-      <div class="header-divider"></div>
-      <div class="header-stat">
-        <span class="stat-value">ANSI/NSF 61</span>
-        <span class="stat-label">Certified</span>
-      </div> -->
+
+    <!-- ADDED: Tank type toggle (top-right) -->
+    <div class="tank-toggle" id="tank-toggle">
+      <button class="toggle-btn active" data-tank="RCT">RCT</button>
+      <button class="toggle-btn" data-tank="SST">SST</button>
+      <button class="toggle-btn" data-tank="FM">FM</button>
     </div>
+
   </header>
 
-  <!-- ═══════════════════════════════════════════════
-       MAIN STAGE
-  ═══════════════════════════════════════════════ -->
   <main id="stage">
-
-    <!-- Tank Image Container -->
     <div id="tank-wrapper">
+      <!-- src switched dynamically -->
       <img id="tank-image" src="assets/Hitech, Gujrat.jpg" alt="Rhino Tank" draggable="false" />
       <div id="tank-glow"></div>
-
-      <!-- 1. Roof / Wall Sheet
-      <div class="hotspot" id="hs-wall" data-id="wall"
-           style="top: 26%; left: 70%;">
-        <div class="hs-dot"></div>
-        <svg class="hs-line" viewBox="0 0 160 60" xmlns="http://www.w3.org/2000/svg">
-          <line class="line-path" x1="0" y1="30" x2="150" y2="8"/>
-        </svg>
-        <div class="hs-label">
-          <span class="label-title">External Level Indicator</span>
-          <span class="label-sub">example text for info </span>
-        </div>
-      </div> -->
-
-      <!-- 2. Access Hatch / Roof -->
-      <!-- <div class="hotspot" id="hs-roof" data-id="roof"
-           style="top: 10%; left: 62%;">
-        <div class="hs-dot"></div>
-        <svg class="hs-line" viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
-          <line class="line-path" x1="0" y1="25" x2="130" y2="10"/>
-        </svg>
-        <div class="hs-label">
-          <span class="label-title">Lockable Access Hatch</span>
-          <span class="label-sub">Square · Corrugated Zincalume Roof</span>
-        </div>
-      </div> -->
-
-      <!-- 3. Nozzles -->
-      <div class="hotspot" id="hs-foundation" data-id="foundation"
-           style="top: 88%; left: 70%;">
-        <div class="hs-dot"></div>
-        <svg class="hs-line hs-line--right" viewBox="0 0 140 40" xmlns="http://www.w3.org/2000/svg">
-          <line class="line-path" x1="140" y1="20" x2="10" y2="20"/>
-        </svg>
-        <div class="hs-label">
-          <span class="label-title">Concrete Ring Foundation</span>
-          <span class="label-sub">Ring Beam + Compacted Sand Pad</span>
-        </div>
-      </div>
-
-      <!-- 4. Infinity Liner -->
-      <div class="hotspot" id="hs-liner" data-id="liner"
-           style="top: 50%; left: 20%;">
-        <div class="hs-dot"></div>
-        <svg class="hs-line hs-line--left" viewBox="0 0 140 40" xmlns="http://www.w3.org/2000/svg">
-          <line class="line-path" x1="140" y1="20" x2="10" y2="20"/>
-        </svg>
-        <div class="hs-label hs-label--left">
-          <span class="label-title">Zincalume Wall Sheet</span>
-          <!-- <span class="label-sub">5-Layer Japanese · ANSI/NSF 61</span> -->
-        </div>
-      </div>
-
-      <!-- 5. Foundation -->
-      <div class="hotspot" id="hs-nozzle" data-id="nozzle" style="top: 80%; left: 41%;">
-        <div class="hs-dot"></div>
-        <svg class="hs-line hs-line--left" viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
-          <line class="line-path" x1="140" y1="25" x2="10" y2="25"/>
-        </svg>
-        <div class="hs-label hs-label--left">
-          <span class="label-title">Anti-Vortex Assembly</span>
-          <span class="label-sub">example text for info </span>
-        </div>
-      </div>
-
-      <!-- 6. Ladder -->
-      <!-- <div class="hotspot" id="hs-ladder" data-id="ladder"
-           style="top: 38%; left: 93%;">
-        <div class="hs-dot"></div>
-        <svg class="hs-line hs-line--right" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
-          <line class="line-path" x1="0" y1="20" x2="110" y2="20"/>
-        </svg>
-        <div class="hs-label">
-          <span class="label-title">External Level Indicator</span>
-          <span class="label-sub">Safety Access · Galvanised Steel</span>
-        </div>
-      </div> -->
-
-    </div><!-- /tank-wrapper -->
-
+      <!-- hotspots injected here by renderHotspots() -->
+    </div>
   </main>
 
-  <!-- ═══════════════════════════════════════════════
-       DETAIL PANEL (slides in on hotspot click)
-  ═══════════════════════════════════════════════ -->
   <aside id="detail-panel">
     <button id="panel-close" aria-label="Close panel">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -155,7 +50,6 @@
         <line x1="6" y1="6" x2="18" y2="18"/>
       </svg>
     </button>
-
     <div class="panel-inner">
       <div class="panel-tag" id="panel-tag">COMPONENT</div>
       <h2 class="panel-title" id="panel-title">—</h2>
@@ -168,11 +62,9 @@
     </div>
   </aside>
 
-  <!-- ═══════════════════════════════════════════════
-       BOTTOM BAR
-  ═══════════════════════════════════════════════ -->
   <footer id="bottom-bar">
     <span>SELECT A COMPONENT TO EXPLORE</span>
+    <!-- shown/hidden per tank -->
     <button class="liner-btn" id="liner-trigger">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="10"/>
@@ -181,7 +73,6 @@
       INFINITY LINER
     </button>
   </footer>
- 
 
   <div id="fs-overlay" style="display:none;">
     <div class="fs-content">
@@ -194,6 +85,7 @@
       <img id="overlay-image" class="fs-animate fs-image" src="" alt="" />
     </div>
   </div>
+
   <script src="app.js"></script>
 </body>
 </html>

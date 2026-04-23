@@ -1,75 +1,91 @@
+/* ═══════════════════════════════════════════════════════════
+   RHINO TANKS EXPERIENCE CENTER — app.js
+   Multi-tank refactor: RCT · SST · FM
+═══════════════════════════════════════════════════════════ */
 
-const COMPONENTS = {
-  wall: {
-    tag: 'WALL STRUCTURE',
-    title: 'Zincalume\nWall Panels',
-    image: 'assets/sheet-info.png',
-    description: 'Corrugated Zincalume AZ150 wall sheets manufactured by Tata Bluescope to G300 Grade. The aluminium-zinc alloy coating provides 2–4× longer service life compared to standard galvanised steel. High solar reflectivity (67%) reduces internal heat gain significantly.',
-    specs: [
-      { key: 'Grade',       val: 'G300 · Az150' },
-      { key: 'Thickness',   val: 'TCT 0.65 mm' },
-      { key: 'Life Span',   val: '2–4× Galvanised' },
-      { key: 'Reflectivity', val: '67% Solar Index' },
+/* ─────────────────────────────────────────────────────────
+   TANK CONFIGS
+   Each entry: image path, showLiner flag, hotspot array
+   Hotspot fields: id, top%, left%, label, sublabel, side ('left'|'right'), image
+───────────────────────────────────────────────────────── */
+const TANKS = {
+  RCT: {
+    image: 'assets/Hitech, Gujrat.jpg',
+    showLiner: true,
+    sizeClass: 'tank-size-rct',
+    hotspots: [
+      {
+        id: 'foundation',
+        top: 88, left: 70,
+        label: 'Concrete Ring Foundation',
+        sublabel: 'Ring Beam + Compacted Sand Pad',
+        side: 'right',
+        image: 'assets/foundation.png'
+      },
+      {
+        id: 'wall',
+        top: 50, left: 20,
+        label: 'Zincalume Wall Sheet',
+        sublabel: '',
+        side: 'left',
+        image: 'assets/sheet-info.png'
+      },
+      {
+        id: 'nozzle',
+        top: 80, left: 41,
+        label: 'Anti-Vortex Assembly',
+        sublabel: 'example text for info',
+        side: 'left',
+        image: 'assets/nozzels.png'
+      }
     ]
   },
-  roof: {
-    tag: 'ROOF SYSTEM',
-    title: 'Corrugated\nZincalume Roof',
-    image: 'assets/tankmaterials details.png',
-    description: 'The roof consists of corrugated Zincalume sheets with a square lockable access hatch for safe inspection and maintenance. The top angle profile ensures structural rigidity. Colorbond colour options provide additional UV and corrosion protection.',
-    specs: [
-      { key: 'Material',  val: 'Zincalume AZ150' },
-      { key: 'Access',    val: 'Square Lockable' },
-      { key: 'Profile',   val: 'Top Angle' },
-      { key: 'Finish',    val: 'Colorbond Available' },
+
+  SST: {
+    image: 'assets/sst.jpeg',
+    showLiner: false,
+    sizeClass: 'tank-size-sst',
+    hotspots: [
+      {
+        id: 'sst-foundation',
+        top: 92, left: 48,
+        label: 'CutSlot Foundation',
+        sublabel: 'Reinforced Base Structure',
+        side: 'right',
+        image: 'assets/sstfoundation.png'
+      },
+      {
+        id: 'sst-body',
+        top: 52, left: 50,
+        label: 'Microcoated Technology',
+        sublabel: 'Grade 304 / 316 Available',
+        side: 'right',
+        image: 'assets/sstinfo.png'
+      }
     ]
   },
-  nozzle: {
-    tag: 'PIPING INTERFACE',
-    title: 'Inlet / Outlet\nNozzles',
-    image: 'assets/nozzels.png',
-    description: 'Nozzle assemblies are engineered with a galvanised backing plate sized and bolted to comply with full nozzle load specifications. M12×30 GR 8.8 bolts with EPDM gaskets ensure leak-proof connections. An internal Infinity Liner fitting maintains full potable-grade integrity.',
-    specs: [
-      { key: 'Bolts',      val: 'M12×30 GR 8.8' },
-      { key: 'Sealing',    val: 'EPDM Gasket' },
-      { key: 'Liner Fit',  val: 'Infinity Liner' },
-      { key: 'Compliance', val: 'Flange Spec.' },
-    ]
-  },
-  liner: {
-    tag: 'INTERNAL LINER',
-    title: 'Infinity\nLiner System',
-    image: 'assets/sheet-info.png',
-    description: 'Exclusive to Shubham Kingspan Rhino Tanks — a 5-layer Japanese-manufactured liner certified to ANSI/NSF 61 for potable water storage. Outer layers use potable-grade UV-treated Metallocene film. The reinforced woven scrim 4th layer provides core structural strength, while Metallocene welded seams offer extra load and pressure resistance.',
-    specs: [
-      { key: 'Certification', val: 'ANSI / NSF 61' },
-      { key: 'Layers',       val: '5-Layer Japanese' },
-      { key: 'Outer Film',   val: 'Metallocene UV' },
-      { key: 'Seam',         val: 'Metallocene Weld' },
-    ]
-  },
-  foundation: {
-    tag: 'FOUNDATION',
-    title: 'Concrete Ring\nBeam Foundation',
-    image: 'assets/foundation.png',
-    description: 'Rhino Tanks are installed on a reinforced concrete ring beam with a compacted sand pad — or a fully concrete base — for rapid, cost-effective installation. The ring beam distributes the hydrostatic load evenly around the tank perimeter, eliminating differential settlement.',
-    specs: [
-      { key: 'Type',     val: 'Ring Beam + Pad' },
-      { key: 'Base',     val: 'Concrete / Sand' },
-      { key: 'Purpose',  val: 'Load Distribution' },
-      { key: 'Install',  val: 'Quick & Cost-Eff.' },
-    ]
-  },
-  ladder: {
-    tag: 'ACCESS SYSTEM',
-    title: 'External Caged\nSafety Ladder',
-    image: 'assets/rct1.jpeg',
-    description: 'The external caged ladder provides safe access to the roof hatch for inspection and maintenance operations. Constructed from hot-dip galvanised steel for maximum corrosion resistance in outdoor environments. Cage design complies with industrial safety standards for elevated work platforms.',
-    specs: [
-      { key: 'Material',  val: 'HDG Steel' },
-      { key: 'Type',      val: 'External Caged' },
-      { key: 'Access',    val: 'Roof Hatch' },
-      { key: 'Standard',  val: 'Industrial Safety' },
+
+  FM: {
+    image: 'assets/fm_tank.png',
+    showLiner: true,
+    sizeClass: 'tank-size-fm',
+    hotspots: [
+      {
+        id: 'fm-panel',
+        top: 40, left: 65,
+        label: 'FM Wall Panel',
+        sublabel: 'Corrugated Zincalume AZ150',
+        side: 'right',
+        image: 'assets/fm.png'
+      },
+      {
+        id: 'fm-base',
+        top: 90, left: 30,
+        label: 'RingBeam Foundation',
+        sublabel: 'Modular Ring Foundation',
+        side: 'left',
+        image: 'assets/foundation.png'
+      }
     ]
   }
 };
@@ -77,30 +93,27 @@ const COMPONENTS = {
 /* ─────────────────────────────────────────────────────────
    STATE
 ───────────────────────────────────────────────────────── */
-let activeId = null;
-let panelOpen = false;
+let currentTank  = 'RCT';
+let activeId     = null;
+let panelOpen    = false;
 let linesAnimated = false;
 
 /* ─────────────────────────────────────────────────────────
-   DOM REFS
+   DOM REFS (static elements only)
 ───────────────────────────────────────────────────────── */
-const loader        = document.getElementById('loader');
-const header        = document.getElementById('site-header');
-const tankWrapper   = document.getElementById('tank-wrapper');
-const tankImage     = document.getElementById('tank-image');
-const detailPanel   = document.getElementById('detail-panel');
-const panelClose    = document.getElementById('panel-close');
-const panelTitle    = document.getElementById('panel-title');
-const panelTag      = document.getElementById('panel-tag');
-const panelImage    = document.getElementById('panel-image');
-const panelDesc     = document.getElementById('panel-description');
-const panelSpecs    = document.getElementById('panel-specs');
-const bottomBar     = document.getElementById('bottom-bar');
-const hotspots      = document.querySelectorAll('.hotspot');
-const canvas        = document.getElementById('particle-canvas');
+const loader       = document.getElementById('loader');
+const header       = document.getElementById('site-header');
+const tankWrapper  = document.getElementById('tank-wrapper');
+const tankImage    = document.getElementById('tank-image');
+const detailPanel  = document.getElementById('detail-panel');
+const panelClose   = document.getElementById('panel-close');
+const bottomBar    = document.getElementById('bottom-bar');
+const linerTrigger = document.getElementById('liner-trigger');
+const canvas       = document.getElementById('particle-canvas');
+const tankToggle   = document.getElementById('tank-toggle');
 
 /* ─────────────────────────────────────────────────────────
-   PARTICLES — lightweight floating dust
+   PARTICLES
 ───────────────────────────────────────────────────────── */
 (function initParticles() {
   const ctx = canvas.getContext('2d');
@@ -113,7 +126,7 @@ const canvas        = document.getElementById('particle-canvas');
 
   function createParticles() {
     particles = [];
-    const count = Math.floor((W * H) / 18000); // density
+    const count = Math.floor((W * H) / 18000);
     for (let i = 0; i < count; i++) {
       particles.push({
         x:     Math.random() * W,
@@ -133,10 +146,8 @@ const canvas        = document.getElementById('particle-canvas');
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(0,212,255,${p.alpha})`;
       ctx.fill();
-
       p.x += p.vx;
       p.y += p.vy;
-
       if (p.y < -4)  p.y = H + 4;
       if (p.x < -4)  p.x = W + 4;
       if (p.x > W+4) p.x = -4;
@@ -149,63 +160,76 @@ const canvas        = document.getElementById('particle-canvas');
 })();
 
 /* ─────────────────────────────────────────────────────────
-   PAGE LOAD SEQUENCE
+   HOTSPOT RENDERING
+   Clears existing hotspots and injects new ones for tankType
 ───────────────────────────────────────────────────────── */
-window.addEventListener('load', () => {
-  const tl = gsap.timeline();
+function renderHotspots(tankType) {
+  // Remove all existing hotspots
+  tankWrapper.querySelectorAll('.hotspot').forEach(el => el.remove());
 
-  // 1. Hide loader
-  tl.to(loader, {
-    opacity: 0,
-    duration: 0.6,
-    delay: 1.2,
-    ease: 'power2.inOut',
-    onComplete: () => { loader.style.display = 'none'; }
-  })
+  const config = TANKS[tankType];
+  linesAnimated = false;
 
-  // 2. Fade in header + bottom bar
-  .to([header, bottomBar], {
-    opacity: 1,
-    y: 0,
-    duration: 0.7,
-    ease: 'power3.out',
-    stagger: 0.1
-  }, '-=0.1')
+  config.hotspots.forEach(hs => {
+    const isLeft = hs.side === 'left';
 
-  // 3. Tank appears — scale up from slightly smaller + fade
-  .fromTo(tankWrapper,
-    { opacity: 0, scale: 0.88, y: 30 },
-    { opacity: 1, scale: 1, y: 0, duration: 1.1, ease: 'expo.out' },
-    '-=0.4'
-  )
+    const div = document.createElement('div');
+    div.className = 'hotspot';
+    div.dataset.id = hs.id;
+    div.style.top  = `${hs.top}%`;
+    div.style.left = `${hs.left}%`;
 
-  // 4. Animate annotation lines
-  .add(() => { animateLines(); }, '-=0.2');
+    div.innerHTML = `
+      <div class="hs-dot"></div>
+      <svg class="hs-line ${isLeft ? 'hs-line--left' : 'hs-line--right'}" viewBox="0 0 140 40" xmlns="http://www.w3.org/2000/svg">
+        <line class="line-path" x1="140" y1="20" x2="10" y2="20"/>
+      </svg>
+      <div class="hs-label ${isLeft ? 'hs-label--left' : ''}">
+        <span class="label-title">${hs.label}</span>
+        ${hs.sublabel ? `<span class="label-sub">${hs.sublabel}</span>` : ''}
+      </div>
+    `;
 
-  // Subtle idle parallax on mouse move
-  initParallax();
-});
+    // Attach click + hover events
+    div.addEventListener('click', () => openPanel(hs.id, div, hs.image));
+
+    div.addEventListener('mouseenter', () => {
+      if (div.classList.contains('active')) return;
+      gsap.to(div.querySelector('.hs-dot'), { scale: 1.3, duration: 0.2, ease: 'power2.out' });
+    });
+
+    div.addEventListener('mouseleave', () => {
+      if (div.classList.contains('active')) return;
+      gsap.to(div.querySelector('.hs-dot'), { scale: 1, duration: 0.3, ease: 'power2.inOut' });
+    });
+
+    tankWrapper.appendChild(div);
+  });
+
+  // Init GSAP states for new labels
+  tankWrapper.querySelectorAll('.hs-label').forEach(lbl => {
+    gsap.set(lbl, { opacity: 0, x: lbl.classList.contains('hs-label--left') ? 8 : -8 });
+  });
+
+  // Stagger dot pulse phases
+  tankWrapper.querySelectorAll('.hotspot').forEach((hs, i) => {
+    hs.querySelector('.hs-dot').style.animationDelay = `${i * 0.4}s`;
+  });
+}
 
 /* ─────────────────────────────────────────────────────────
    ANIMATE ANNOTATION LINES
-   Each line: stroke-dashoffset 300 → 0, then label fades in
 ───────────────────────────────────────────────────────── */
 function animateLines() {
   if (linesAnimated) return;
   linesAnimated = true;
 
-  hotspots.forEach((hs, i) => {
+  tankWrapper.querySelectorAll('.hotspot').forEach((hs, i) => {
     const line  = hs.querySelector('.line-path');
     const label = hs.querySelector('.hs-label');
     const delay = i * 0.18 + 0.1;
 
-    gsap.to(line, {
-      strokeDashoffset: 0,
-      duration: 0.7,
-      delay,
-      ease: 'power2.out'
-    });
-
+    gsap.to(line, { strokeDashoffset: 0, duration: 0.7, delay, ease: 'power2.out' });
     gsap.to(label, {
       opacity: 1,
       x: 0,
@@ -217,7 +241,97 @@ function animateLines() {
 }
 
 /* ─────────────────────────────────────────────────────────
-   PARALLAX (mouse-based subtle tank drift)
+   SWITCH TANK
+───────────────────────────────────────────────────────── */
+function switchTank(type) {
+  if (type === currentTank) return;
+
+  // Close any open panel first
+  if (panelOpen) closePanel();
+
+  currentTank = type;
+  const config = TANKS[type];
+
+  // Fade tank out → swap → fade in
+  gsap.to(tankWrapper, {
+    opacity: 0,
+    scale: 0.94,
+    duration: 0.35,
+    ease: 'power2.in',
+    onComplete: () => {
+      // Swap image
+      tankImage.src = config.image;
+
+      // Apply per-tank size class
+      tankWrapper.classList.remove('tank-size-rct', 'tank-size-sst', 'tank-size-fm');
+      tankWrapper.classList.add(config.sizeClass);
+
+      // Re-render hotspots
+      renderHotspots(type);
+
+      // Toggle Infinity Liner button
+      linerTrigger.style.display = config.showLiner ? '' : 'none';
+
+      // Fade back in
+      gsap.to(tankWrapper, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.55,
+        ease: 'expo.out',
+        onComplete: animateLines
+      });
+    }
+  });
+
+  // Update toggle button active states
+  tankToggle.querySelectorAll('.toggle-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tank === type);
+  });
+}
+
+/* ─────────────────────────────────────────────────────────
+   TOGGLE CLICK HANDLER
+───────────────────────────────────────────────────────── */
+tankToggle.querySelectorAll('.toggle-btn').forEach(btn => {
+  btn.addEventListener('click', () => switchTank(btn.dataset.tank));
+});
+
+/* ─────────────────────────────────────────────────────────
+   PAGE LOAD SEQUENCE
+───────────────────────────────────────────────────────── */
+window.addEventListener('load', () => {
+  // Render initial RCT hotspots
+  renderHotspots('RCT');
+  tankWrapper.classList.add('tank-size-rct');
+
+  const tl = gsap.timeline();
+
+  tl.to(loader, {
+    opacity: 0,
+    duration: 0.6,
+    delay: 1.2,
+    ease: 'power2.inOut',
+    onComplete: () => { loader.style.display = 'none'; }
+  })
+  .to([header, bottomBar], {
+    opacity: 1,
+    y: 0,
+    duration: 0.7,
+    ease: 'power3.out',
+    stagger: 0.1
+  }, '-=0.1')
+  .fromTo(tankWrapper,
+    { opacity: 0, scale: 0.88, y: 30 },
+    { opacity: 1, scale: 1, y: 0, duration: 1.1, ease: 'expo.out' },
+    '-=0.4'
+  )
+  .add(() => { animateLines(); }, '-=0.2');
+
+  initParallax();
+});
+
+/* ─────────────────────────────────────────────────────────
+   PARALLAX
 ───────────────────────────────────────────────────────── */
 function initParallax() {
   document.addEventListener('mousemove', (e) => {
@@ -226,138 +340,43 @@ function initParallax() {
     const cy = window.innerHeight / 2;
     const dx = (e.clientX - cx) / cx;
     const dy = (e.clientY - cy) / cy;
-
-    gsap.to(tankWrapper, {
-      x: dx * 12,
-      y: dy * 8,
-      duration: 1.6,
-      ease: 'power1.out'
-    });
+    gsap.to(tankWrapper, { x: dx * 12, y: dy * 8, duration: 1.6, ease: 'power1.out' });
   });
 }
 
 /* ─────────────────────────────────────────────────────────
-   HOTSPOT CLICK → OPEN PANEL
-───────────────────────────────────────────────────────── */
-hotspots.forEach(hs => {
-  hs.addEventListener('click', () => {
-    const id = hs.dataset.id;
-    openPanel(id, hs);
-  });
-
-  // Hover: highlight line
-  hs.addEventListener('mouseenter', () => {
-    if (hs.classList.contains('active')) return;
-    gsap.to(hs.querySelector('.hs-dot'), {
-      scale: 1.3, duration: 0.2, ease: 'power2.out'
-    });
-  });
-
-  hs.addEventListener('mouseleave', () => {
-    if (hs.classList.contains('active')) return;
-    gsap.to(hs.querySelector('.hs-dot'), {
-      scale: 1, duration: 0.3, ease: 'power2.inOut'
-    });
-  });
-});
-
-
-
-/* ─────────────────────────────────────────────────────────
-   OPEN PANEL
-───────────────────────────────────────────────────────── */
-/* ─────────────────────────────────────────────────────────
    OPEN FULL-SCREEN OVERLAY
-   Replaces old side-panel openPanel()
 ───────────────────────────────────────────────────────── */
-function openPanel(id, triggerHs) {
-  const data = COMPONENTS[id];
-  if (!data) return;
-
+function openPanel(id, triggerEl, imageSrc) {
   activeId = id;
 
   // Mark active hotspot
-  hotspots.forEach(h => h.classList.remove('active'));
-  
-  triggerHs.classList.add('active');
-  const activeDot = document.querySelector(`.bd[data-id="${id}"]`);
-  if (activeDot) activeDot.classList.add('active');
+  tankWrapper.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
+  triggerEl.classList.add('active');
 
-  // // Populate overlay content
-  // document.getElementById('overlay-tag').textContent   = data.tag;
-  // document.getElementById('overlay-title').textContent = data.title;
-  // document.getElementById('overlay-image').src         = data.image;
-  // document.getElementById('overlay-image').alt         = data.title;
-  // document.getElementById('overlay-desc').textContent  = data.description;
-
-  // // Build specs grid
-  // document.getElementById('overlay-specs').innerHTML = data.specs.map(s => `
-  //   <div class="spec-item">
-  //     <span class="spec-key">${s.key}</span>
-  //     <span class="spec-val">${s.val}</span>
-  //   </div>
-  // `).join('');
-
-  // Populate overlay — image only
-  document.getElementById('overlay-image').src = data.image;
-  document.getElementById('overlay-image').alt = data.title;
+  // Set image
+  document.getElementById('overlay-image').src = imageSrc;
+  document.getElementById('overlay-image').alt = id;
 
   const overlay = document.getElementById('fs-overlay');
   const content = overlay.querySelector('.fs-content');
-  const items   = overlay.querySelectorAll('.fs-animate');
+  const img     = document.getElementById('overlay-image');
 
-  // Show overlay
   overlay.style.display = 'flex';
   panelOpen = true;
   document.body.classList.add('panel-open');
 
-  // Disable hotspot pointer events while open
-  hotspots.forEach(h => h.style.pointerEvents = 'none');
+  tankWrapper.querySelectorAll('.hotspot').forEach(h => h.style.pointerEvents = 'none');
+  tankToggle.style.pointerEvents = 'none';
 
-  // GSAP: fade in overlay, stagger content
   gsap.timeline()
-    .fromTo(overlay,
-      { opacity: 0 },
-      { opacity: 1, duration: 0.45, ease: 'power3.out' }
-    )
-    .fromTo(content,
-      { scale: 0.96, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 0.55, ease: 'power3.out' },
-      '-=0.25'
-    )
-    .fromTo(items,
-      { y: 22, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out', stagger: 0.07 },
-      '-=0.35'
-    );
+    .fromTo(overlay,  { opacity: 0 },                { opacity: 1, duration: 0.45, ease: 'power3.out' })
+    .fromTo(content,  { scale: 0.96, opacity: 0 },   { scale: 1, opacity: 1, duration: 0.55, ease: 'power3.out' }, '-=0.25')
+    .fromTo(img,      { y: 22, opacity: 0 },          { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, '-=0.35');
 }
 
-/* ─────────────────────────────────────────────────────────
-   ZOOM TANK TOWARD ACTIVE HOTSPOT
-───────────────────────────────────────────────────────── */
-function zoomTankToHotspot(hs) {
-  const wrapRect = tankWrapper.getBoundingClientRect();
-  const dotRect  = hs.querySelector('.hs-dot').getBoundingClientRect();
-
-  // Hotspot position relative to tank center (normalised -0.5 to 0.5)
-  const relX = (dotRect.left + 8 - wrapRect.left - wrapRect.width  / 2) / wrapRect.width;
-  const relY = (dotRect.top  + 8 - wrapRect.top  - wrapRect.height / 2) / wrapRect.height;
-
-  gsap.to(tankWrapper, {
-    scale: 1.06,
-    x: -relX * 40 - 60, // shift left so panel doesn't obscure
-    y: -relY * 30,
-    duration: 0.9,
-    ease: 'expo.out'
-  });
-}
-
-/* ─────────────────────────────────────────────────────────
-   CLOSE PANEL
-───────────────────────────────────────────────────────── */
 /* ─────────────────────────────────────────────────────────
    CLOSE FULL-SCREEN OVERLAY
-   Replaces old side-panel closePanel()
 ───────────────────────────────────────────────────────── */
 function closePanel() {
   if (!panelOpen) return;
@@ -373,44 +392,29 @@ function closePanel() {
       panelOpen = false;
       activeId  = null;
 
-      // Re-enable hotspot interactions
-      hotspots.forEach(h => {
+      tankWrapper.querySelectorAll('.hotspot').forEach(h => {
         h.style.pointerEvents = '';
         h.classList.remove('active');
       });
+      tankToggle.style.pointerEvents = '';
       document.body.classList.remove('panel-open');
     }
   });
-
-
 }
 
+/* ─────────────────────────────────────────────────────────
+   PANEL CLOSE BUTTON + KEYBOARD + BACKDROP
+───────────────────────────────────────────────────────── */
 panelClose.addEventListener('click', closePanel);
-
-// Close on Escape key
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closePanel();
-});
-
-// Click on tank background also closes (not on hotspot)
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePanel(); });
 tankWrapper.addEventListener('click', (e) => {
   if (!e.target.closest('.hotspot') && panelOpen) closePanel();
 });
 
 /* ─────────────────────────────────────────────────────────
-   GSAP INITIAL STATES (before load animation runs)
+   INFINITY LINER BUTTON
 ───────────────────────────────────────────────────────── */
-gsap.set(header,    { opacity: 0, y: -10 });
-gsap.set(bottomBar, { opacity: 0 });
-gsap.set(tankWrapper, { opacity: 0, scale: 0.88, y: 30 });
-
-// Labels start invisible + shifted by 8px
-document.querySelectorAll('.hs-label').forEach(lbl => {
-  gsap.set(lbl, { opacity: 0, x: lbl.classList.contains('hs-label--left') ? 8 : -8 });
-});
-
-document.getElementById('liner-trigger').addEventListener('click', () => {
-  // Directly open the liner image overlay
+linerTrigger.addEventListener('click', () => {
   const overlay = document.getElementById('fs-overlay');
   const content = overlay.querySelector('.fs-content');
   const img     = document.getElementById('overlay-image');
@@ -421,27 +425,24 @@ document.getElementById('liner-trigger').addEventListener('click', () => {
   overlay.style.display = 'flex';
   panelOpen = true;
   document.body.classList.add('panel-open');
-  hotspots.forEach(h => h.style.pointerEvents = 'none');
+  tankWrapper.querySelectorAll('.hotspot').forEach(h => h.style.pointerEvents = 'none');
+  tankToggle.style.pointerEvents = 'none';
 
   gsap.timeline()
-    .fromTo(overlay,
-      { opacity: 0 },
-      { opacity: 1, duration: 0.45, ease: 'power3.out' }
-    )
-    .fromTo(content,
-      { scale: 0.96, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 0.55, ease: 'power3.out' },
-      '-=0.25'
-    )
-    .fromTo(img,
-      { y: 22, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' },
-      '-=0.35'
-    );
+    .fromTo(overlay,  { opacity: 0 },              { opacity: 1, duration: 0.45, ease: 'power3.out' })
+    .fromTo(content,  { scale: 0.96, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.55, ease: 'power3.out' }, '-=0.25')
+    .fromTo(img,      { y: 22, opacity: 0 },        { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, '-=0.35');
 });
 
 /* ─────────────────────────────────────────────────────────
-   SMALL AMBIENT GLOW PULSE on tank
+   GSAP INITIAL STATES
+───────────────────────────────────────────────────────── */
+gsap.set(header,    { opacity: 0, y: -10 });
+gsap.set(bottomBar, { opacity: 0 });
+gsap.set(tankWrapper, { opacity: 0, scale: 0.88, y: 30 });
+
+/* ─────────────────────────────────────────────────────────
+   AMBIENT GLOW PULSE
 ───────────────────────────────────────────────────────── */
 gsap.to('#tank-glow', {
   opacity: 0.5,
@@ -452,15 +453,5 @@ gsap.to('#tank-glow', {
   repeat: -1
 });
 
-/* ─────────────────────────────────────────────────────────
-   HOTSPOT DOT IDLE ANIMATION VARIATION
-   Give each dot a slightly different pulse phase
-───────────────────────────────────────────────────────── */
-hotspots.forEach((hs, i) => {
-  // Stagger the CSS animation start
-  const dot = hs.querySelector('.hs-dot');
-  dot.style.animationDelay = `${i * 0.4}s`;
-});
-
 console.log('%c RHINO TANKS EXPERIENCE CENTER ', 'background:#00d4ff;color:#080a0e;font-weight:bold;padding:4px 8px;');
-console.log('%c Click any hotspot to explore the tank components.', 'color:#5a6478');
+console.log('%c Click any hotspot to explore. Use RCT / SST / FM toggle to switch tanks.', 'color:#5a6478');

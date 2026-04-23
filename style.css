@@ -732,3 +732,164 @@ html, body {
 .liner-btn:hover::before {
   opacity: 1;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   TANK TYPE TOGGLE  —  append to bottom of style.css
+   Matches existing industrial/cinematic theme
+═══════════════════════════════════════════════════════════ */
+
+.tank-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0, 212, 255, 0.04);
+  border: 1px solid var(--clr-border);
+  border-radius: 6px;
+  padding: 4px;
+  position: relative;
+}
+
+.toggle-btn {
+  position: relative;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--clr-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 7px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.25s, border-color 0.25s, background 0.25s;
+  outline: none;
+  z-index: 1;
+}
+
+.toggle-btn:hover {
+  color: var(--clr-white);
+  background: rgba(0, 212, 255, 0.06);
+  border-color: rgba(0, 212, 255, 0.2);
+}
+
+.toggle-btn.active {
+  color: var(--clr-accent);
+  background: rgba(0, 212, 255, 0.08);
+  border-color: rgba(0, 212, 255, 0.45);
+  box-shadow:
+    0 0 12px rgba(0, 212, 255, 0.2),
+    inset 0 0 8px rgba(0, 212, 255, 0.06);
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.7);
+}
+
+/* Responsive — hide labels, shrink toggle on small screens */
+@media (max-width: 900px) {
+  .tank-toggle {
+    padding: 3px;
+    gap: 2px;
+  }
+
+  .toggle-btn {
+    font-size: 9px;
+    letter-spacing: 2px;
+    padding: 6px 12px;
+  }
+}
+
+
+
+.tank-size-rct {
+  width: 40vw;
+  max-width: 900px;
+  max-height: none;
+}
+
+/* ── SST ── */
+.tank-size-sst {
+  width: auto;
+  max-width: 50vw;
+  height: calc(103vh - 140px);
+  max-height: 760px;
+}
+
+.tank-size-sst #tank-image {
+  width: auto;
+  height: 100%;
+  max-width: 50vw;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+/* ── FM ── */
+.tank-size-fm {
+  width: auto;
+  max-width: 45vw;
+  height: calc(-42px + 104vh);
+  max-height: 800px;
+}
+
+.tank-size-fm #tank-image {
+  width: auto;
+  height: 100%;
+  max-width: 45vw;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.tank-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0, 212, 255, 0.04);
+  border: 1px solid var(--clr-border);
+  border-radius: 6px;
+  padding: 4px;
+  position: relative;
+}
+
+.toggle-btn {
+  position: relative;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--clr-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 7px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.25s, border-color 0.25s, background 0.25s;
+  outline: none;
+  z-index: 1;
+}
+
+.toggle-btn:hover {
+  color: var(--clr-white);
+  background: rgba(0, 212, 255, 0.06);
+  border-color: rgba(0, 212, 255, 0.2);
+}
+
+.toggle-btn.active {
+  color: var(--clr-accent);
+  background: rgba(0, 212, 255, 0.08);
+  border-color: rgba(0, 212, 255, 0.45);
+  box-shadow:
+    0 0 12px rgba(0, 212, 255, 0.2),
+    inset 0 0 8px rgba(0, 212, 255, 0.06);
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.7);
+}
+
+/* Responsive — hide labels, shrink toggle on small screens */
+@media (max-width: 900px) {
+  .tank-toggle {
+    padding: 3px;
+    gap: 2px;
+  }
+
+  .toggle-btn {
+    font-size: 9px;
+    letter-spacing: 2px;
+    padding: 6px 12px;
+  }
+}
