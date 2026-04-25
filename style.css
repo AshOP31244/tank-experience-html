@@ -242,12 +242,14 @@ body.tank-fm  #right-logo { height: 65px; filter: brightness(1.0) saturate(1.2);
   box-shadow: 0 0 0 5px rgba(255,107,43,0.25), 0 0 20px rgba(255,107,43,0.7);
 }
 
-/* ── Lines ── */
 .hs-line {
   position: absolute; top: 50%; left: 50%;
-  transform: translateY(-50%); width: 160px;
+  transform: translateY(-50%);
+  width: auto;          /* ← remove fixed width */
+  height: 40px;         /* ← control height instead */
   overflow: visible; pointer-events: none;
 }
+
 .hs-line--right { left: 50%; }
 .hs-line--left  { left: auto; right: 50%; transform: translateY(-50%) scaleX(-1); }
 .line-path {

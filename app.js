@@ -1,13 +1,4 @@
-/* ═══════════════════════════════════════════════════════════
-   RHINO TANKS EXPERIENCE CENTER — app.js
-═══════════════════════════════════════════════════════════ */
 
-/* ─────────────────────────────────────────────────────────
-   TANK CONFIGS
-   labelX: extra horizontal nudge in px (negative = more left)
-   labelY: extra vertical nudge in px   (negative = up)
-   lineLength: SVG viewBox width (default 140)
-───────────────────────────────────────────────────────── */
 const TANKS = {
   RCT: {
     image:     'assets/Hitech, Gujrat.jpg',
@@ -26,7 +17,8 @@ const TANKS = {
       },
       {
         id: 'wall', top: 50, left: 20,
-        label: 'Zincalume Wall Sheet', sublabel: '',
+        label: 'Zincalume Wall Sheet', 
+        sublabel: 'Grade 300 | AZ150 Sheet',
         side: 'left', labelX: 0, labelY: 0,
         image: 'assets/sheet-info.png'
       },
@@ -36,7 +28,15 @@ const TANKS = {
         sublabel: 'example text for info',
         side: 'left', labelX: 0, labelY: 0,
         image: 'assets/nozzels.png'
-      }
+      },
+      {
+        id: 'fullview',
+        top: 50, left: 62,       // ← adjust top/left to place dot on the image
+        label: 'Exploded View',
+        sublabel: '',
+        side: 'right', labelX: 0, labelY: 0,
+        image: 'assets/tankmaterials details.png'   // ← replace with your actual asset
+      },
     ]
   },
 
@@ -44,23 +44,25 @@ const TANKS = {
     image:     'assets/sst.jpeg',
     showLiner: false,
     sizeClass: 'tank-size-sst',
-    navLabel:  'SECURESTORE TANK',
+    navLabel:  'SECURESTORE™ TANK',
     navSub:    'SST SERIES',
     rightLogo: 'assets/sst-logo.png',
     hotspots: [
       {
-        id: 'sst-foundation', top: 92, left: 48,
+        id: 'sst-foundation', top: 92, left: 78,
         label: 'CutSlot Foundation',
         sublabel: 'Reinforced Base Structure',
-        side: 'left', lineLength: 180,
-        labelX: -160, labelY: 0,
+        side: 'right', lineLength: 310,
+        labelX: 160, labelY: 0,
         image: 'assets/sstfoundation.png'
       },
       {
-        id: 'sst-body', top: 52, left: 50,
-        label: 'SecureCoat Technology',
-        sublabel: 'Grade 304 / 316 Available',
-        side: 'right', labelX: 0, labelY: 0,
+        id: 'sst-body', top: 52, left: 32,
+        label: 'SecureCoat™ ',
+        sublabel: 'Microcoated Technology',
+        side: 'left',
+        lineLength: 210,
+        labelX:-60, labelY: 0,
         image: 'assets/securecoat.png'
       }
     ]
@@ -85,6 +87,7 @@ const TANKS = {
         id: 'fm-base', top: 90, left: 30,
         label: 'RingBeam Foundation',
         sublabel: 'Ring Beam + Compacted Sand Pad',
+        lineLength: 190,
         side: 'left', labelX:-40, labelY: 0,
         image: 'assets/foundation.png'
       }
