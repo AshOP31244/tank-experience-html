@@ -31,11 +31,11 @@ const TANKS = {
       },
       {
         id: 'fullview',
-        top: 50, left: 62,       // ← adjust top/left to place dot on the image
+        top: 50, left: 62,       
         label: 'Exploded View',
         sublabel: '',
         side: 'right', labelX: 0, labelY: 0,
-        image: 'assets/tankmaterials details.png'   // ← replace with your actual asset
+        image: 'assets/rct-exploded.png'
       },
     ]
   },
