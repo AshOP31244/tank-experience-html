@@ -19,7 +19,7 @@ const TANKS = {
     hotspots: [
       {
         id: 'foundation', top: 88, left: 76,
-        label: 'Concrete Ring Foundation',
+        label: 'RingBeam Foundation',
         sublabel: 'Ring Beam + Compacted Sand Pad',
         side: 'right', labelX: 0, labelY: 0,
         image: 'assets/foundation.png'
@@ -58,10 +58,10 @@ const TANKS = {
       },
       {
         id: 'sst-body', top: 52, left: 50,
-        label: 'Microcoated Technology',
+        label: 'SecureCoat Technology',
         sublabel: 'Grade 304 / 316 Available',
         side: 'right', labelX: 0, labelY: 0,
-        image: 'assets/sstinfo.png'
+        image: 'assets/securecoat.png'
       }
     ]
   },
@@ -84,7 +84,7 @@ const TANKS = {
       {
         id: 'fm-base', top: 90, left: 30,
         label: 'RingBeam Foundation',
-        sublabel: 'Modular Ring Foundation',
+        sublabel: 'Ring Beam + Compacted Sand Pad',
         side: 'left', labelX:-40, labelY: 0,
         image: 'assets/foundation.png'
       }
