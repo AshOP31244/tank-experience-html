@@ -21,18 +21,33 @@
   <canvas id="particle-canvas"></canvas>
 
   <header id="site-header">
+
+    
     <div class="header-left">
-      <h1 class="company-name">SHUBHAM TANKS AND LINERS PVT. LTD.</h1>
+      <img src="assets/shubham-logo.png" alt="Shubham Logo" class="header-logo" />
     </div>
 
-    <!-- ADDED: Tank type toggle (top-right) -->
-    <div class="tank-toggle" id="tank-toggle">
-      <button class="toggle-btn active" data-tank="RCT">RCT</button>
-      <button class="toggle-btn" data-tank="SST">SST</button>
-      <button class="toggle-btn" data-tank="FM">FM</button>
+    <!-- Centre: changes per tank -->
+    <div class="header-center">
+      <span class="tank-type-label" id="tank-type-label">RHINO COMMERCIAL TANK</span>
+      
+    </div>
+
+    <!-- Right logo only -->
+    <div class="header-right">
+      <img id="right-logo" src="assets/kingspan-logo.png" alt="Right Logo" class="header-logo" />
     </div>
 
   </header>
+
+  
+  <div id="tank-switcher">
+    <div class="tank-toggle" id="tank-toggle">
+      <button class="toggle-btn active" data-tank="RCT">RCT</button>
+      <button class="toggle-btn"        data-tank="SST">SST</button>
+      <button class="toggle-btn"        data-tank="FM">FM</button>
+    </div>
+  </div>
 
   <main id="stage">
     <div id="tank-wrapper">
